@@ -1,3 +1,0 @@
-add_executable(AbsoluteGrayscaleTest AbsoluteGrayscaleTest.cpp)
-target_link_libraries(AbsoluteGrayscaleTest PRIVATE crosspoint_test_common GTest::gtest_main)
-gtest_discover_tests(AbsoluteGrayscaleTest)

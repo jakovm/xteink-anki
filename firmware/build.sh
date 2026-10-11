@@ -13,22 +13,18 @@ elif [[ $# -gt 1 ]]; then
   source_override="$2"
 fi
 
+# One CrossPoint 1.6.5 tree and one Anki patch. The boards are different MCUs,
+# so each target still produces its own binary.
 if [[ "${target}" == "x4pro" ]]; then
   build_environment="x4pro-gh_release"
   output_file="${repo_dir}/dist/crosspoint-1.6.5-xteink-anki-x4pro.bin"
 else
   build_environment="gh_release"
-  output_file="${repo_dir}/dist/crosspoint-1.4.1-xteink-anki.bin"
+  output_file="${repo_dir}/dist/crosspoint-1.6.5-xteink-anki-x4.bin"
 fi
 
 prepare_source() {
-  if [[ "${target}" == "x4pro" ]]; then
-    if [[ -n "${source_override}" ]]; then
-      "${script_dir}/prepare.sh" --x4pro "${source_override}"
-    else
-      "${script_dir}/prepare.sh" --x4pro
-    fi
-  elif [[ -n "${source_override}" ]]; then
+  if [[ -n "${source_override}" ]]; then
     "${script_dir}/prepare.sh" "${source_override}"
   else
     "${script_dir}/prepare.sh"

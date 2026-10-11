@@ -14,7 +14,9 @@
 
 ## Firmware flashing
 
-- The published `.bin` is for **Xteink X4 + CrossPoint 1.4.1 partition layout only**.
+- Published binaries are CrossPoint **1.6.5** builds and are model-specific:
+  `crosspoint-1.6.5-xteink-anki-x4.bin` for the ESP32-C3 X4, and
+  `crosspoint-1.6.5-xteink-anki-x4pro.bin` for the ESP32-S3 X4 Pro.
 - Flashing the wrong device or a different partition map can brick the unit until you recover with a known-good image.
 
 ## Reporting issues

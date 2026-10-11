@@ -1,2 +1,0 @@
--r lib/EpdFont/scripts/requirements.txt
--r scripts/requirements.txt

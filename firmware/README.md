@@ -1,23 +1,25 @@
 # X4- und X4-Pro-Firmware für CrossPoint
 
-Die Firmware wird aus zwei festgelegten CrossPoint-Versionen gebaut: 1.4.1 für
-den X4 Classic und 1.6.5 für den X4 Pro. Für jede Version gibt es einen
-separaten Anki-Patch; das große Upstream-Repository wird nicht in dieses
-Projekt kopiert.
+Die Firmware wird aus einer CrossPoint-Version gebaut: **1.6.5**. Ein
+Anki-Patch gilt für beide Geräte. Es entstehen zwei Binaries, weil der X4 ein
+ESP32-C3 ist und der X4 Pro ein ESP32-S3. Das Upstream-Repository wird nicht
+in dieses Projekt kopiert.
 
-## X4 Classic
-
-- CrossPoint-Tag: `1.4.1`
-- CrossPoint-Commit: `970b2c6ca13d663eff1bcee9778dc48359d2ab70`
-- Patch: `patches/crosspoint-1.4.1-anki.patch`
-
-## X4 Pro
+## Gemeinsame Quelle
 
 - CrossPoint-Tag: `1.6.5`
 - CrossPoint-Commit: `93e98bb78702e29868a16a13b80c40e6b36ccdff`
+- Patch: `patches/crosspoint-1.6.5-anki.patch`
+
+## X4 (ESP32-C3)
+
+- PlatformIO-Umgebung: `gh_release`
+- Binary: `dist/crosspoint-1.6.5-xteink-anki-x4.bin`
+
+## X4 Pro (ESP32-S3)
+
 - PlatformIO-Umgebung: `x4pro-gh_release`
 - Binary: `dist/crosspoint-1.6.5-xteink-anki-x4pro.bin`
-- Patch: `patches/crosspoint-1.6.5-anki.patch`
 
 Die Anki-Integration ergänzt:
 
@@ -61,27 +63,27 @@ aktualisieren — nicht nur den Patch.
 ./firmware/build.sh x4pro
 ```
 
-Die Skripte klonen ausschließlich die festgelegten CrossPoint-Versionen in
-`.firmware-build/`, prüfen den exakten Commit, wenden den Patch an und erzeugen:
+Das Skript klont CrossPoint 1.6.5 nach `.firmware-build/`, prüft den exakten
+Commit, wendet den Patch an und erzeugt je nach Aufruf:
 
 ```text
-dist/crosspoint-1.4.1-xteink-anki.bin
+dist/crosspoint-1.6.5-xteink-anki-x4.bin
 dist/crosspoint-1.6.5-xteink-anki-x4pro.bin
 ```
 
-Die Ausgabe des X4-Pro-Builds verwendet PlatformIOs `x4pro-gh_release`-Target
-für den ESP32-S3. Der Checkout-Pfad enthält einen kurzen Hash des Patches. Dadurch bleiben
-aufeinanderfolgende Firmware-Stände getrennt und ein älterer Build-Ordner kann
-keine Konflikte beim Anwenden eines neueren Patches verursachen.
+`x4` baut `gh_release` (ESP32-C3). `x4pro` baut `x4pro-gh_release` (ESP32-S3).
+Beide Aufrufe verwenden denselben Checkout. Der Pfad enthält einen kurzen Hash
+des Patches, damit ein älterer Build-Ordner einen neueren Patch nicht blockiert.
 
 ## Flashen (Modell beachten)
 
-- `crosspoint-1.4.1-xteink-anki.bin` ist ausschließlich für den X4 Classic mit
-  CrossPoint-1.4.1-Partitionslayout bestimmt.
+- `crosspoint-1.6.5-xteink-anki-x4.bin` ist ausschließlich für den X4 mit
+  ESP32-C3 bestimmt (`gh_release`).
 - `crosspoint-1.6.5-xteink-anki-x4pro.bin` ist ausschließlich für den X4 Pro
-  und dessen ESP32-S3-Boardprofil bestimmt.
+  mit ESP32-S3 bestimmt.
 - Die Binaries nicht zwischen den Modellen austauschen und nicht auf einen X3
-  oder ein anderes Board flashen.
+  oder ein anderes Board flashen. `x4c-gh_release` ist ein anderes S3-Gerät
+  und wird hier nicht gebaut.
 
 Am einfachsten wird die zum Modell passende Datei im offiziellen
 CrossPoint-Web-Flasher als **Custom .bin** gewählt. Alternativ lässt sie sich

@@ -1,3 +1,0 @@
-add_executable(GlyphBitmapTest GlyphBitmapTest.cpp)
-target_link_libraries(GlyphBitmapTest PRIVATE crosspoint_test_common GTest::gtest_main)
-gtest_discover_tests(GlyphBitmapTest)

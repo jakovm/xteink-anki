@@ -1,11 +1,16 @@
-# v2.5.8 — Xteink X4 Pro firmware support
+# v2.5.8 — CrossPoint 1.6.5 for X4 and X4 Pro
 
 ## Firmware
 
-- Added an X4 Pro build using CrossPoint 1.6.5's ESP32-S3 `x4pro-gh_release` target.
-- Keep using the CrossPoint 1.4.1 binary for the X4 Classic. The two binaries are
-  model-specific and must not be cross-flashed.
-- Build with `./firmware/build.sh x4pro`; add-on/API behavior is unchanged.
+- Both models now build from CrossPoint 1.6.5 and one Anki patch
+  (`firmware/patches/crosspoint-1.6.5-anki.patch`).
+- X4 (ESP32-C3): `./firmware/build.sh x4` → `dist/crosspoint-1.6.5-xteink-anki-x4.bin`
+  (`gh_release`).
+- X4 Pro (ESP32-S3): `./firmware/build.sh x4pro` →
+  `dist/crosspoint-1.6.5-xteink-anki-x4pro.bin` (`x4pro-gh_release`).
+- The binaries are model-specific and must not be cross-flashed. The CrossPoint
+  1.4.1 image is no longer shipped.
+- Add-on/API behavior is unchanged.
 
 # v2.5.7 — flag gesture works on X4 hardware
 

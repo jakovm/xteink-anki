@@ -37783,6 +37783,15 @@ diff --git a/platformio.ini b/platformio.ini
 index e6b5d0f..2b84c64 100644
 --- a/platformio.ini
 +++ b/platformio.ini
+@@ -239,7 +239,7 @@ build_flags =
+   ${base.build_flags}
+   -DFREEINK_DEVICE_X4=1
+   -DFREEINK_DEVICE_X3=1
+-  -DCROSSPOINT_VERSION=\"${crosspoint.version}\"
++  -DCROSSPOINT_VERSION=\"${crosspoint.version}-anki-2.5.8\"
+   -DENABLE_SERIAL_LOG
+   -DLOG_LEVEL=1 ; Set log level to info for release builds
+ 
 @@ -402,7 +402,7 @@ build_flags =
    -DBOARD_HAS_PSRAM
    -DUSB_PRODUCT=\"CrossPoint_X4_Pro\"
@@ -40416,7 +40425,7 @@ index 0000000..062ef27
 +#include <cstring>
 +
 +// xteink-anki package version (bump with RELEASE_NOTES / dist binary).
-+// CROSSPOINT_VERSION is set by PlatformIO (e.g. 1.4.1-anki-2.5.8 on gh_release).
++// CROSSPOINT_VERSION is set by PlatformIO (e.g. 1.6.5-anki-2.5.8 on gh_release).
 +#ifndef XTEINK_ANKI_FW_VERSION
 +#define XTEINK_ANKI_FW_VERSION "2.5.8"
 +#endif

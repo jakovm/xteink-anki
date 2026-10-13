@@ -1,16 +1,25 @@
-# X4-Firmware für CrossPoint 1.4.1
+# X4- und X4-Pro-Firmware für CrossPoint
 
-Die X4-Seite ist als kleiner, nachvollziehbarer Patch gegen die unveränderte
-CrossPoint-Version 1.4.1 abgelegt. Damit wird das große Upstream-Repository
-nicht in dieses Projekt kopiert.
+Die Firmware wird aus zwei festgelegten CrossPoint-Versionen gebaut: 1.4.1 für
+den X4 Classic und 1.6.5 für den X4 Pro. Für jede Version gibt es einen
+separaten Anki-Patch; das große Upstream-Repository wird nicht in dieses
+Projekt kopiert.
 
-Basis:
+## X4 Classic
 
 - CrossPoint-Tag: `1.4.1`
 - CrossPoint-Commit: `970b2c6ca13d663eff1bcee9778dc48359d2ab70`
 - Patch: `patches/crosspoint-1.4.1-anki.patch`
 
-Der Patch ergänzt:
+## X4 Pro
+
+- CrossPoint-Tag: `1.6.5`
+- CrossPoint-Commit: `93e98bb78702e29868a16a13b80c40e6b36ccdff`
+- PlatformIO-Umgebung: `x4pro-gh_release`
+- Binary: `dist/crosspoint-1.6.5-xteink-anki-x4pro.bin`
+- Patch: `patches/crosspoint-1.6.5-anki.patch`
+
+Die Anki-Integration ergänzt:
 
 - einen eigenen **Anki**-Eintrag im CrossPoint-Hauptmenü,
 - Download aller fälligen Stapel als speicherschonendes NDJSON,
@@ -31,7 +40,7 @@ Der Patch ergänzt:
 - **Progress:** zählt nur abgeschlossene Karten (Gut/Einfach bzw. Hard ohne
   Requeue); **Nochmal** und **Schwer** auf Lernkarten füllen den Balken nicht,
 - **Version:** Anki-Menü + Anki-Einstellungen zeigen Firmware-Version im Header
-  (Release: `1.4.1-anki-2.5.7`; auch Boot/System-Einstellungen),
+  (CrossPoint-Version plus `anki-2.5.8`; auch Boot/System-Einstellungen),
 - Platzhalter bei leeren Kartenseiten; Mac-Add-on mit Feld-Fallback,
 - Bewertungen `Nochmal`, `Schwer`, `Gut` und `Einfach`,
 - erneute lokale Einplanung von Lernkarten nach `Nochmal`/`Schwer`,
@@ -43,37 +52,43 @@ Der Patch ergänzt:
 Benötigt werden Git, Python 3.10 oder neuer sowie pioarduino/PlatformIO
 (`pio` im PATH oder `~/.platformio/penv/bin/pio`).
 
-**Agent/Release-Regel:** Nach jeder Firmware-Änderung (Patch, UI, Sync-Protokoll)
-wird `./firmware/build.sh` ausgeführt und `dist/crosspoint-1.4.1-xteink-anki.bin`
-(+ `dist/SHA256SUMS`) aktualisiert — nicht nur der Patch.
+**Release-Regel:** Nach jeder Firmware-Änderung (Patch, UI, Sync-Protokoll)
+beide Firmware-Varianten bauen und die Binaries sowie `dist/SHA256SUMS`
+aktualisieren — nicht nur den Patch.
 
 ```bash
-./firmware/build.sh
+./firmware/build.sh x4
+./firmware/build.sh x4pro
 ```
 
-Das Skript klont ausschließlich die festgelegte CrossPoint-Version in
-`.firmware-build/`, prüft den exakten Commit, wendet den Patch an und erzeugt:
+Die Skripte klonen ausschließlich die festgelegten CrossPoint-Versionen in
+`.firmware-build/`, prüfen den exakten Commit, wenden den Patch an und erzeugen:
 
 ```text
 dist/crosspoint-1.4.1-xteink-anki.bin
+dist/crosspoint-1.6.5-xteink-anki-x4pro.bin
 ```
 
-Der Checkout-Pfad enthält einen kurzen Hash des Patches. Dadurch bleiben
+Die Ausgabe des X4-Pro-Builds verwendet PlatformIOs `x4pro-gh_release`-Target
+für den ESP32-S3. Der Checkout-Pfad enthält einen kurzen Hash des Patches. Dadurch bleiben
 aufeinanderfolgende Firmware-Stände getrennt und ein älterer Build-Ordner kann
 keine Konflikte beim Anwenden eines neueren Patches verursachen.
 
-## Flashen
+## Flashen (Modell beachten)
 
-Die Binärdatei ist für einen Xteink X4 mit dem Partitionslayout von CrossPoint
-1.4.1 bestimmt. Sie darf nicht auf einen X3 oder eine abweichend partitionierte
-Firmware geflasht werden.
+- `crosspoint-1.4.1-xteink-anki.bin` ist ausschließlich für den X4 Classic mit
+  CrossPoint-1.4.1-Partitionslayout bestimmt.
+- `crosspoint-1.6.5-xteink-anki-x4pro.bin` ist ausschließlich für den X4 Pro
+  und dessen ESP32-S3-Boardprofil bestimmt.
+- Die Binaries nicht zwischen den Modellen austauschen und nicht auf einen X3
+  oder ein anderes Board flashen.
 
-Am einfachsten wird sie im offiziellen CrossPoint-Web-Flasher als
-**Custom .bin** gewählt. Alternativ kann CrossPoint 1.4.1 die Datei von der
-SD-Karte über **Einstellungen → Firmware von SD** installieren. Während des
-Updates müssen Stromversorgung und SD-Karte verbunden bleiben.
+Am einfachsten wird die zum Modell passende Datei im offiziellen
+CrossPoint-Web-Flasher als **Custom .bin** gewählt. Alternativ lässt sie sich
+über **Einstellungen → Firmware von SD** installieren. Während des Updates
+müssen Stromversorgung und SD-Karte verbunden bleiben.
 
-## X4 über den Webzugang einrichten
+## X4 Classic / X4 Pro über den Webzugang einrichten
 
 1. Am X4 **Datentransfer → Netzwerk beitreten** öffnen.
 2. Am Mac die auf dem X4 angezeigte Adresse oder

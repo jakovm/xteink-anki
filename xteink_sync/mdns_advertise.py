@@ -96,7 +96,7 @@ class MdnsAdvertiser:
 
         LOGGER.warning(
             "mDNS advertise unavailable (install 'zeroconf' or use macOS dns-sd). "
-            "X4 must use a manual server URL."
+            "Xteink devices must use a manual server URL."
         )
         return False
 

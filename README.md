@@ -1,17 +1,43 @@
-# Xteink X4 ↔ Anki offline sync
+# Xteink X4 / X4 Pro ↔ Anki offline sync
 
-**Offline Anki reviews on the [Xteink X4](https://xteink.com) e-ink reader**, with scheduling and AnkiWeb sync still handled by Anki Desktop on your computer.
+**Offline Anki reviews on the [Xteink X4 or X4 Pro](https://xteink.com) e-ink reader**, with scheduling and AnkiWeb sync still handled by Anki Desktop on your computer.
 
 | Piece | Role |
 | --- | --- |
 | **Anki add-on** (`xteink_sync`) | Local LAN server: due cards out, reviews in, then normal AnkiWeb sync |
-| **X4 firmware** (CrossPoint 1.4.1 patch) | Offline study UI: multi-deck, grades; DE/Greek UI font or reader/SD fonts |
+| **X4 / X4 Pro firmware** (CrossPoint patches) | Offline study UI: multi-deck, grades; DE/Greek UI font or reader/SD fonts |
 
-> Community project — not an official Xteink or Anki product. Firmware is a **patch** on [CrossPoint](https://github.com/crosspoint-reader/crosspoint-reader) 1.4.1, not a full fork.
+> Community project — not an official Xteink or Anki product. Firmware is a **patch** on [CrossPoint](https://github.com/crosspoint-reader/crosspoint-reader), not a full fork. The X4 Classic and X4 Pro require different firmware binaries.
 
-## Status (v2.4.0)
+## Status (v2.5.8)
 
-Working for daily use on X4 + Anki Desktop (macOS tested):
+Working for daily use on X4 / X4 Pro + Anki Desktop (macOS tested). X4 Pro
+firmware is built separately from the X4 Classic firmware:
+
+- X4 Classic: CrossPoint 1.4.1, `gh_release` target
+- X4 Pro: CrossPoint 1.6.5, ESP32-S3 `x4pro-gh_release` target
+
+### What this branch adds
+
+This branch adds full Xteink X4 Pro firmware support to the existing Anki
+offline-sync project. It ports the Anki menus, settings, card review and sync
+flows to the Pro-capable CrossPoint base, with dedicated Greek-capable UI
+fonts and firmware build artifacts. The existing X4 Classic support remains
+available and is built from its original CrossPoint 1.4.1 base. The two board
+profiles use separate patches and binaries; never flash one model's binary to
+the other.
+
+The Anki add-on and its sync protocol are unchanged by this firmware port.
+
+The current model-specific firmware files are:
+
+- `dist/crosspoint-1.4.1-xteink-anki.bin` — X4 Classic only
+- `dist/crosspoint-1.6.5-xteink-anki-x4pro.bin` — X4 Pro only
+- `dist/SHA256SUMS` — checksums for both firmware images
+
+Build either image from the repository root with `./firmware/build.sh x4` or
+`./firmware/build.sh x4pro`. The pinned CrossPoint source and corresponding
+patch details are documented in [`firmware/README.md`](firmware/README.md).
 
 - Pull **all top-level decks with due cards** (not only the open deck)
 - **Max cards per deck / total** on X4 web UI **and** device Anki settings (defaults 250 / 1000)
@@ -36,10 +62,12 @@ Known limits of the offline model: learning steps after Again/Hard are re-queued
 
 Optional config: **Tools → Add-ons → Xteink X4 E-Ink Offline Sync → Config** (`max_cards`, port, …).
 
-### 2. Xteink X4
+### 2. Xteink X4 or X4 Pro
 
-1. Download `crosspoint-1.4.1-xteink-anki.bin` from the same Release (check `SHA256SUMS`).
-2. Flash **only** on an X4 with CrossPoint **1.4.1** layout (CrossPoint web flasher “Custom .bin”, or **Settings → Firmware from SD**).
+1. Download the firmware for your exact model from the same Release (check `SHA256SUMS`):
+   - X4 Classic: `crosspoint-1.4.1-xteink-anki.bin`
+   - X4 Pro: `crosspoint-1.6.5-xteink-anki-x4pro.bin`
+2. Flash only the matching binary: the X4 Classic build requires CrossPoint **1.4.1**; the X4 Pro build requires the **X4 Pro** board and CrossPoint **1.6.5** layout. Use the CrossPoint web flasher (“Custom .bin”) or **Settings → Firmware from SD**. **Do not cross-flash between models.**
 3. On the device: **Data transfer → Join network**.
 4. In a browser: `http://crosspoint.local/settings` → **Anki Offline Sync**
    - Mac server URL, e.g. `http://192.168.1.23:5050` — **or** on device:
@@ -275,7 +303,7 @@ Ease values: `1=Again`, `2=Hard`, `3=Good`, `4=Easy`. Details and examples: see 
 
 ```text
 xteink_sync/     Anki add-on source (pull/push; textutil = XFD converter)
-firmware/        Patch + build scripts against CrossPoint 1.4.1
+firmware/        Anki patches and build scripts for X4 Classic / X4 Pro
 dist/            Prebuilt .ankiaddon + .bin + SHA256SUMS
 tests/           Protocol / textutil (XFD) unit tests
 scripts/         Layout helpers
@@ -296,7 +324,8 @@ rm -f dist/xteink_sync.ankiaddon
     protocol.py textutil.py user_files )
 
 # Rebuild firmware (needs PlatformIO / pioarduino)
-./firmware/build.sh
+./firmware/build.sh x4
+./firmware/build.sh x4pro
 ```
 
 ## Sharing with Anki & Xteink communities
@@ -324,9 +353,12 @@ LAN-only, token-protected. See [`SECURITY.md`](SECURITY.md).
 2. Anki neu starten → **Werkzeuge → Xteink Status** → LAN-Adresse und API-Token notieren.
 3. Optional unter **Werkzeuge → Erweiterungen → Config**: `max_cards`, `max_total_cards`, Port, …
 
-### Xteink X4
+### Xteink X4 / X4 Pro
 
-1. Firmware-Bin flashen (nur X4 / CrossPoint **1.4.1**).
+1. Das zum Modell passende Firmware-Bin flashen:
+   - X4 Classic: `crosspoint-1.4.1-xteink-anki.bin` (CrossPoint **1.4.1**)
+   - X4 Pro: `crosspoint-1.6.5-xteink-anki-x4pro.bin` (X4 Pro / CrossPoint **1.6.5**)
+   - **Binaries nicht zwischen X4 Classic und X4 Pro austauschen.**
 2. **Datentransfer → Netzwerk beitreten** → im Browser `http://crosspoint.local/settings`.
 3. Unter **Anki Offline Sync**:
    - Mac-Server-URL und API-Token

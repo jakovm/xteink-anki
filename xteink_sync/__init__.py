@@ -163,7 +163,7 @@ def _t(key: str, **kwargs: Any) -> str:
 
 
 def _deck_display_name(full_name: str) -> str:
-    """Human-readable deck path for the X4 list (keep hierarchy, stay compact)."""
+    """Human-readable deck path for the device list (keep hierarchy, stay compact)."""
     name = (full_name or "").strip()
     if not name:
         return "Anki"
@@ -1135,7 +1135,7 @@ class XteinkAddon:
             elif bool(self.config.get("mdns_enabled", True)):
                 message += (
                     "\n\nmDNS: not advertising "
-                    "(dns-sd/zeroconf unavailable — set server URL manually on X4)"
+                    "(dns-sd/zeroconf unavailable — set the server URL manually on the device)"
                 )
         showInfo(message, title=_t("status_title"))
 

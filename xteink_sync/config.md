@@ -21,10 +21,10 @@ senden.
   (macOS: `dns-sd`; sonst optional Python-Paket `zeroconf`). Der API-Token
   wird **nicht** veröffentlicht.
 - `mdns_name`: Anzeigename der mDNS-Instanz (Standard: `Xteink Anki`).
-- `max_cards`: Standard-Maximum **pro fälligem Stapel** (250). Der X4 kann
+- `max_cards`: Standard-Maximum **pro fälligem Stapel** (250). X4 und X4 Pro können
   beim Pull mit `?max_cards=` überschreiben (Web-UI oder
   **Anki → Anki-Einstellungen → Max. Karten / Stapel**).
-- `max_total_cards`: Standard-Gesamtlimit über alle Stapel (1000). X4 kann mit
+- `max_total_cards`: Standard-Gesamtlimit über alle Stapel (1000). X4 und X4 Pro können mit
   `?max_total=` überschreiben (**Max. Karten gesamt**). Harte Obergrenze 1000.
   Fehlt der Key in einer älteren Config, wird er beim Add-on-Start ergänzt.
 - `max_text_chars`: maximale Textlänge pro Karten-Seite.
@@ -33,7 +33,7 @@ senden.
 - `operation_timeout_seconds`: Wartezeit auf Ankis Collection-Operationen.
 - `sync_after_push`: startet nach erfolgreicher Übernahme den AnkiWeb-Sync
   (auch nach Flag-Updates).
-- `allow_legacy_csv`: optional altes Review-CSV (ohne Flags). X4 ab v2.5 sendet
+- `allow_legacy_csv`: optional altes Review-CSV (ohne Flags). X4 / X4 Pro ab v2.5 senden
   nur noch JSON: `reviews` + `flags` (`flag` 0–7, Gerät toggelt 0↔1).
 - `cors_allowed_origin`: `*` erlaubt den Zugriff aus dem Xteink-Web-Connect-
   Plugin. Für eine strengere Konfiguration kann hier dessen genauer Origin

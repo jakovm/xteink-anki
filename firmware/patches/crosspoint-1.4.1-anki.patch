@@ -34300,7 +34300,7 @@ index 0fae051..896cca2 100644
  build_flags =
    ${base.build_flags}
 -  -DCROSSPOINT_VERSION=\"${crosspoint.version}\"
-+  -DCROSSPOINT_VERSION=\"${crosspoint.version}-anki-2.5.7\"
++  -DCROSSPOINT_VERSION=\"${crosspoint.version}-anki-2.5.8\"
    -DENABLE_SERIAL_LOG
    -DLOG_LEVEL=1 ; Set log level to info for release builds
  
@@ -36924,9 +36924,9 @@ index 0000000..7176f25
 +#include <cstring>
 +
 +// xteink-anki package version (bump with RELEASE_NOTES / dist binary).
-+// CROSSPOINT_VERSION is set by PlatformIO (e.g. 1.4.1-anki-2.5.7 on gh_release).
++// CROSSPOINT_VERSION is set by PlatformIO (e.g. 1.4.1-anki-2.5.8 on gh_release).
 +#ifndef XTEINK_ANKI_FW_VERSION
-+#define XTEINK_ANKI_FW_VERSION "2.5.7"
++#define XTEINK_ANKI_FW_VERSION "2.5.8"
 +#endif
 +
 +// Label for Anki UI headers (static buffer — UI thread only).

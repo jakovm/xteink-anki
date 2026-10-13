@@ -1,3 +1,12 @@
+# v2.5.8 — Xteink X4 Pro firmware support
+
+## Firmware
+
+- Added an X4 Pro build using CrossPoint 1.6.5's ESP32-S3 `x4pro-gh_release` target.
+- Keep using the CrossPoint 1.4.1 binary for the X4 Classic. The two binaries are
+  model-specific and must not be cross-flashed.
+- Build with `./firmware/build.sh x4pro`; add-on/API behavior is unchanged.
+
 # v2.5.7 — flag gesture works on X4 hardware
 
 ## Firmware
